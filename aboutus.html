@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Our Aashram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #6f1616, #862020);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background-color: #182848;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section {
+            padding: 3rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #4b6cb7;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, #a42727, #821d1d);
+            margin: 0.5rem auto 0;
+        }
+
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.6s ease 0.2s;
+        }
+
+        .about-text.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.6s ease 0.2s;
+        }
+
+        .about-image.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .mission-vision {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .mission,
+        .vision {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .mission.visible,
+        .vision.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mission {
+            transition-delay: 0.2s;
+        }
+
+        .vision {
+            transition-delay: 0.4s;
+        }
+
+        .guru-profile {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .guru-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.6s ease;
+        }
+
+        .guru-image.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .guru-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .guru-info {
+            flex: 2;
+            min-width: 300px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease 0.2s;
+        }
+
+        .guru-info.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .activities {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .activity-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .activity-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .activity-card:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .activity-card:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .activity-card:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .activity-card:nth-child(4) {
+            transition-delay: 0.4s;
+        }
+
+        .activity-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .activity-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .activity-card:hover .activity-image img {
+            transform: scale(1.1);
+        }
+
+        .activity-content {
+            padding: 1.5rem;
+        }
+
+        .activity-content h3 {
+            color: #8a1e1e;
+            margin-bottom: 0.5rem;
+        }
+
+        .floating-leaves {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: url('https://www.freepnglogos.com/uploads/leaf-png/leaf-png-transparent-images-png-only-28.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.6;
+            z-index: 1;
+            animation: float 15s infinite linear;
+        }
+
+        .leaf-1 {
+            top: 20%;
+            left: 5%;
+            animation-delay: 0s;
+            transform: rotate(20deg);
+        }
+
+        .leaf-2 {
+            top: 60%;
+            right: 10%;
+            animation-delay: 3s;
+            transform: rotate(-15deg);
+            animation-direction: reverse;
+        }
+
+        .leaf-3 {
+            bottom: 10%;
+            left: 15%;
+            animation-delay: 5s;
+            transform: rotate(35deg);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+
+        footer {
+            background: linear-gradient(135deg, #7b1818, #7e1717);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 2rem;
+            padding: 0 1.5rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: white;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item i {
+            margin-right: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .social-link {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        nav {
+            background-color: #a13333;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+
+            .about-content,
+            .guru-profile {
+                flex-direction: column;
+            }
+
+            .mission-vision {
+                flex-direction: column;
+            }
+
+            .nav-container {
+                flex-wrap: wrap;
+            }
+
+            .nav-link {
+                margin: 0.25rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="floating-leaves leaf-1"></div>
+        <div class="floating-leaves leaf-2"></div>
+        <div class="floating-leaves leaf-3"></div>
+        <div class="header-content">
+            <h1>ABOUT US</h1>
+            <p class="subtitle">hope of happiness</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="aboutus.html" class="nav-link">About Us</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="donate.html" class="nav-link active">Donate</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="section">
+            <h2 class="section-title">Our Story</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Bhatkya Vimukt Jati Shikshan Sanstha (BVJSS) is a dedicated non-profit organization that has been
+                        working tirelessly since 1987 to uplift the lives of marginalized children, especially orphans
+                        and children with disabilities. Founded with a vision to provide equal opportunities and
+                        holistic development, BVJSS focuses on the care, education, and rehabilitation of orphans, as
+                        well as blind, deaf, and differently-abled (Divyang) children.</p>
+                    <p>Situated in a serene and nurturing environment, BVJSS operates a residential facility (hermitage)
+                        where around 350 children currently reside. These children are provided with not just basic
+                        necessities like food and shelter, but also access to quality education, healthcare, and
+                        vocational training. The organization believes in the transformative power of education and
+                        strives to empower its students to lead independent and dignified lives.</p>
+                    <p>BVJSS fosters an inclusive atmosphere where children from underprivileged and neglected
+                        backgrounds are encouraged to explore their potential. It places a strong emphasis on values,
+                        discipline, and self-reliance. The staff and volunteers work closely with the children, creating
+                        a family-like environment filled with care, support, and emotional security.
+
+                        With decades of service and dedication, BVJSS has become a beacon of hope for the most
+                        vulnerable sections of society, helping shape a brighter and more inclusive future.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <img src="images/aboutUs.jpg" alt="Shanti Aashram Main Temple">
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Our Mission & Vision</h2>
+            <div class="mission-vision">
+                <div class="mission">
+                    <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                    <p>To provide a safe, nurturing, and inclusive home for orphaned, blind, deaf, and differently-abled
+                        children.</p>
+                
+                    <p>To foster values of empathy, discipline, and social responsibility among children.</p>
+                    <p>To work towards breaking the cycle of marginalization and building pathways to meaningful and empowered lives.</p>
+                </div>
+                <div class="vision">
+                    <h3><i class="fas fa-eye"></i> Our Vision</h3>
+                    <p>To create an inclusive and compassionate society where every orphaned and differently-abled child
+                        is empowered through education, care, and opportunity to live a life of dignity, independence,
+                        and purpose.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="section">
+            <h2 class="section-title">Aashram Activities</h2>
+            <div class="activities">
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <img src="images/1000166966.jpg" alt="Daily Yoga">
+                    </div>
+
+                </div>
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <img src="images/1000166967.jpg" alt="Meditation">
+                    </div>
+
+                </div>
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <img src="images/1000166971.jpg" alt="Satsang">
+                    </div>
+
+                </div>
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <img src="images/1000166972.jpg" alt="Seva">
+                    </div>
+
+                </div>
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <img src="images/1000166973.jpg" alt="Seva">
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>1.Wagholi
+                        Near Radheshwari Nagari, Bakori Phata, Wagholi, Haveli, Pune, Maharashtra 412207
+                        <br>
+                        2.Pabal
+                        Residential School for Divyang Students, Pabal, Maharashtra 412403
+                    </span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+91 9372466612</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>contact@madhyamikaashram.org</span>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <p><a href="#" style="color: white; text-decoration: none;">Visitor Information</a></p>
+                <p><a href="#" style="color: white; text-decoration: none;">Donations</a></p>
+                <p><a href="#" style="color: white; text-decoration: none;">Volunteer Opportunities</a></p>
+                <p><a href="#" style="color: white; text-decoration: none;">FAQ</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 1990 Madhyamik shala Aashram. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Animate sections when they come into view
+            const sections = document.querySelectorAll('.section');
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const section = entry.target;
+
+                        // Animate the section title
+                        const title = section.querySelector('.section-title');
+                        if (title) title.classList.add('visible');
+
+                        // Animate content specific to each section
+                        if (section.querySelector('.about-text')) {
+                            section.querySelector('.about-text').classList.add('visible');
+                            section.querySelector('.about-image').classList.add('visible');
+                        }
+
+                        if (section.querySelector('.mission')) {
+                            section.querySelector('.mission').classList.add('visible');
+                            section.querySelector('.vision').classList.add('visible');
+                        }
+
+                        if (section.querySelector('.guru-image')) {
+                            section.querySelector('.guru-image').classList.add('visible');
+                            section.querySelector('.guru-info').classList.add('visible');
+                        }
+
+                        const activityCards = section.querySelectorAll('.activity-card');
+                        if (activityCards.length > 0) {
+                            activityCards.forEach(card => {
+                                card.classList.add('visible');
+                            });
+                        }
+
+                        sectionObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // Floating leaves animation
+            const leaves = document.querySelectorAll('.floating-leaves');
+            leaves.forEach(leaf => {
+                // Randomize initial position slightly
+                const randomX = Math.random() * 20 - 10;
+                const randomY = Math.random() * 20 - 10;
+                leaf.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${Math.random() * 360}deg)`;
+
+                // Randomize animation duration
+                const duration = 15 + Math.random() * 10;
+                leaf.style.animationDuration = `${duration}s`;
+            });
+
+            // Hover effect for activity cards
+            const activityCards = document.querySelectorAll('.activity-card');
+            activityCards.forEach(card => {
+                card.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-10px)';
+                    this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.15)';
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.05)';
+                });
+            });
+
+            // Parallax effect for header
+            window.addEventListener('scroll', function () {
+                const scrollPosition = window.scrollY;
+                const header = document.querySelector('header');
+                header.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
+
+                // Move leaves slightly with scroll
+                leaves.forEach((leaf, index) => {
+                    const speed = 0.2 + (index * 0.1);
+                    leaf.style.transform = `translateY(${scrollPosition * speed}px) rotate(${scrollPosition * 0.2}deg)`;
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
