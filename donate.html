@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate to Madhyamik aashram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg,#6f1616, #862020);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background-color: #a13333;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .donation-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .donation-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .donation-header h2 {
+            color: #4b6cb7;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .donation-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .donation-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .donation-form {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.6s ease;
+        }
+
+        .donation-form.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .donation-info {
+            flex: 1;
+            min-width: 300px;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.6s ease 0.2s;
+        }
+
+        .donation-info.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #6e121a;
+            box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2);
+        }
+
+        .amount-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .amount-option {
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .amount-option input {
+            display: none;
+        }
+
+        .amount-option label {
+            display: block;
+            padding: 0.8rem;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .amount-option input:checked + label {
+            background-color: #4b6cb7;
+            color: white;
+        }
+
+        .amount-option label:hover {
+            background-color: #e0e0e0;
+        }
+
+        .amount-option input:checked + label:hover {
+            background-color: #701c1c;
+        }
+
+        .custom-amount {
+            display: flex;
+            align-items: center;
+        }
+
+        .custom-amount span {
+            margin-right: 0.5rem;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg,#6f1616, #862020);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .donation-impact {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .donation-impact h3 {
+            color: #4b6cb7;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .impact-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .impact-item {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .impact-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .impact-item:nth-child(1) { transition-delay: 0.1s; }
+        .impact-item:nth-child(2) { transition-delay: 0.2s; }
+        .impact-item:nth-child(3) { transition-delay: 0.3s; }
+        .impact-item:nth-child(4) { transition-delay: 0.4s; }
+
+        .impact-item i {
+            font-size: 2rem;
+            color: #4b6cb7;
+            margin-bottom: 0.5rem;
+        }
+
+        .impact-item .amount {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .testimonials {
+            margin-top: 2rem;
+        }
+
+        .testimonials h3 {
+            color: #4b6cb7;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .testimonial-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .testimonial-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .testimonial-card:nth-child(1) { transition-delay: 0.2s; }
+        .testimonial-card:nth-child(2) { transition-delay: 0.4s; }
+        .testimonial-card:nth-child(3) { transition-delay: 0.6s; }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .testimonial-text::before,
+        .testimonial-text::after {
+            content: '"';
+            font-size: 2rem;
+            color: #4b6cb7;
+            opacity: 0.3;
+            position: absolute;
+        }
+
+        .testimonial-text::before {
+            top: -10px;
+            left: -15px;
+        }
+
+        .testimonial-text::after {
+            bottom: -20px;
+            right: -10px;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .payment-method {
+            width: 60px;
+            height: 40px;
+            background-color: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-method img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #6f1616, #862020);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 2rem;
+            padding: 0 1.5rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: white;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item i {
+            margin-right: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .social-link {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal h3 {
+            color: #4b6cb7;
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            margin-bottom: 1.5rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .donation-container {
+                flex-direction: column;
+            }
+            
+            .nav-container {
+                flex-wrap: wrap;
+            }
+            
+            .nav-link {
+                margin: 0.25rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .amount-options {
+                justify-content: center;
+            }
+            
+            .amount-option {
+                flex: none;
+                width: calc(33.333% - 0.5rem);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Support Madhyamik Aashram</h1>
+            <p class="subtitle">Bank detailson helps sustain our spiritual community and outreach programs</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="aboutus.html" class="nav-link">About Us</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="donate.html" class="nav-link active">Donate</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="donation-header">
+            <h2>Make a Difference Today</h2>
+            <p>Bank detailsus donation supports our meditation programs, free meals for visitors, maintenance of our sacred spaces, and community outreach initiatives. Every contribution, no matter the size, helps preserve this sanctuary of peace.</p>
+        </div>
+
+        <div class="donation-container">
+            <form id="donationForm" class="donation-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Donation Amount</label>
+                    <div class="amount-options">
+                        <div class="amount-option">
+                            <input type="radio" id="amount-25" name="amount" value="25">
+                            <label for="amount-25">100rs</label>
+                        </div>
+                        <div class="amount-option">
+                            <input type="radio" id="amount-50" name="amount" value="50">
+                            <label for="amount-50">1000rs</label>
+                        </div>
+                        <div class="amount-option">
+                            <input type="radio" id="amount-100" name="amount" value="100">
+                            <label for="amount-100">2500rs</label>
+                        </div>
+                        <div class="amount-option">
+                            <input type="radio" id="amount-250" name="amount" value="250">
+                            <label for="amount-250">3500rs</label>
+                        </div>
+                        <div class="amount-option">
+                            <input type="radio" id="amount-500" name="amount" value="500">
+                            <label for="amount-500">5500rs</label>
+                        </div>
+                        <div class="amount-option">
+                            <input type="radio" id="amount-other" name="amount" value="other">
+                            <label for="amount-other">Other</label>
+                        </div>
+                    </div>
+                    <div class="form-group custom-amount" id="customAmountGroup" style="display: none;">
+                        <span>$</span>
+                        <input type="number" id="customAmount" class="form-control" placeholder="Enter amount">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="frequency">Donation Frequency</label>
+                    <select id="frequency" class="form-control">
+                        <option value="one-time">One-time donation</option>
+                        <option value="monthly">Monthly donation</option>
+                        <option value="quarterly">Quarterly donation</option>
+                        <option value="yearly">Yearly donation</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message (Optional)</label>
+                    <textarea id="message" class="form-control" rows="3" placeholder="Any special instructions or dedications"></textarea>
+                </div>
+
+                <button type="submit" class="btn">Donate Now</button>
+
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
+                    </div>
+                    <div class="payment-method">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+                    </div>
+                    <div class="payment-method">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="American Express">
+                    </div>
+                    <div class="payment-method">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+                    </div>
+                </div>
+            </form>
+
+            <div class="donation-info">
+                <div class="donation-impact">
+                    <h3>Bank details</h3>
+                    <div class="impact-items">
+                        <div class="impact-item">
+                        
+                            <div class="amount">Account Name  </div>
+                            <div>Bhatkya Vimukta Jati Shikshan Sanstha</div>
+                        </div>
+                        <div class="impact-item">
+                        
+                            <div class="amount">Account No. :</div>
+                            <div>922010016796997</div>
+                        </div>
+                        <div class="impact-item">
+                       
+                            <div class="amount">IFSC Code :</div>
+                            <div> UTIB0003191</div>
+                        </div>
+                        <div class="impact-item">
+                        
+                            <div class="amount">Bank Name :</div>
+                            <div>AXIS Bank<br>Branch : Wagholi, Pune.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonials">
+                    <h3>Donor Testimonials</h3>
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            Giving to Madhyamik Aashram has been transformative, not just for them but for me. I feel connected to something greater through my monthly donations.
+                        </div>
+                        <div class="testimonial-author">- Priya M., Monthly Donor</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            After visiting the aashram, I knew I wanted to support their work. The peace I found there is something I want others to experience.
+                        </div>
+                        <div class="testimonial-author">- Robert T., One-time Donor</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            Our family foundation supports many causes, but Madhyamik Aashram stands out for its authentic spiritual work and community impact.
+                        </div>
+                        <div class="testimonial-author">- The Gupta Family</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Success Modal -->
+    <div class="modal" id="donationModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <i class="fas fa-hands-helping" style="font-size: 3rem; color: #4b6cb7; margin-bottom: 1rem;"></i>
+            <h3>Thank You for Bank detailssity!</h3>
+            <p id="modalMessage">Bank detailson of $<span id="donationAmount">0</span> has been received. You will receive a confirmation email shortly.</p>
+            <p>Bank detailst helps maintain this sacred space and makes our programs accessible to all seekers.</p>
+            <button class="btn" style="margin-top: 1rem;" id="closeModalBtn">Continue</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>1.Wagholi
+                        Near Radheshwari Nagari, Bakori Phata, Wagholi, Haveli, Pune, Maharashtra 412207
+                        <br>
+                        2.Pabal
+                        Residential School for Divyang Students, Pabal, Maharashtra 412403
+                        </span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+91 9372466612</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>donations@madhyamik.org</span>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Donation Info</h3>
+                <p><a href="#" style="color: white; text-decoration: none;">Tax Deductibility</a></p>
+                <p><a href="#" style="color: white; text-decoration: none;">Recurring Donations</a></p>
+                <p><a href="#" style="color: white; text-decoration: none;">Other Ways to Give</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 1990 Madhyamik shala Aashram. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate elements when they come into view
+            const animateOnScroll = () => {
+                const elements = document.querySelectorAll('.donation-header, .donation-form, .donation-info, .impact-item, .testimonial-card');
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                elements.forEach(element => {
+                    observer.observe(element);
+                });
+            };
+
+            animateOnScroll();
+
+            // Show/hide custom amount field
+            const amountRadios = document.querySelectorAll('input[name="amount"]');
+            const customAmountGroup = document.getElementById('customAmountGroup');
+            
+            amountRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'other') {
+                        customAmountGroup.style.display = 'flex';
+                        document.getElementById('customAmount').focus();
+                    } else {
+                        customAmountGroup.style.display = 'none';
+                    }
+                });
+            });
+
+            // Form submission
+            const donationForm = document.getElementById('donationForm');
+            const donationModal = document.getElementById('donationModal');
+            const donationAmountSpan = document.getElementById('donationAmount');
+            const closeModal = document.querySelector('.close-modal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            
+            donationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const selectedAmount = document.querySelector('input[name="amount"]:checked').value;
+                const customAmount = document.getElementById('customAmount').value;
+                const frequency = document.getElementById('frequency').value;
+                const message = document.getElementById('message').value;
+                
+                // Determine donation amount
+                let amount = 0;
+                if (selectedAmount === 'other') {
+                    amount = parseFloat(customAmount) || 0;
+                } else {
+                    amount = parseFloat(selectedAmount);
+                }
+                
+                // Validate amount
+                if (amount <= 0) {
+                    alert('Please enter a valid donation amount');
+                    return;
+                }
+                
+                // Show donation amount in modal
+                donationAmountSpan.textContent = amount.toFixed(2);
+                
+                // In a real application, you would process the payment here
+                // This is just a simulation
+                
+                // Show success modal
+                donationModal.classList.add('show');
+                
+                // Reset form
+                this.reset();
+                customAmountGroup.style.display = 'none';
+            });
+            
+            // Close modal handlers
+            closeModal.addEventListener('click', function() {
+                donationModal.classList.remove('show');
+            });
+            
+            closeModalBtn.addEventListener('click', function() {
+                donationModal.classList.remove('show');
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === donationModal) {
+                    donationModal.classList.remove('show');
+                }
+            });
+
+            // Parallax effect for header
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.scrollY;
+                const header = document.querySelector('header');
+                header.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
+            });
+        });
+    </script>
+</body>
+</html>
